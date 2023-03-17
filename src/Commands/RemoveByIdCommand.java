@@ -9,6 +9,7 @@ public class RemoveByIdCommand {
         System.out.print("Введите значение id: ");
         Scanner scan = new Scanner(System.in);
         Long id = scan.nextLong();
-        CollectionManager.removeById(id);
+        CollectionManager collectionManager = new CollectionManager();
+        collectionManager.removeById(id);
     }
 }

@@ -8,16 +8,16 @@ import java.util.Vector;
 
 public class CollectionManager {
 
-        private static Vector<Organization> organizationVector = new Vector<>();
+        private Vector<Organization> organizationVector = new Vector<>();
 
-    public static Vector<Organization> getOrganizationVector () {
+    public Vector<Organization> getOrganizationVector () {
         return organizationVector;
     }
 
-    public static void setOrganizationVector (Vector <Organization> organizationVector) {
-        CollectionManager.organizationVector = organizationVector;
+    public void setOrganizationVector (Vector <Organization> organizationVector) {
+        this.organizationVector = organizationVector;
     }
-    public static boolean removeById(Long id){
+    public boolean removeById(Long id){
         Iterator<Organization> iter = getOrganizationVector().iterator();
         int i = 0;
         while (iter.hasNext()) {
