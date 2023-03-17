@@ -1,6 +1,6 @@
 package ParceFile;
 
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 import Exceptions.WrongValuesException;
 import Organization.Address;
 import Organization.Coordinates;
@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class FileReader extends CollectionOfOrgs{
+public class FileReader extends CollectionManager {
     private final ArrayDeque<String> value;
     private final Vector<Organization> resultOrganizations;
     private final ArrayList<String> valuenew;

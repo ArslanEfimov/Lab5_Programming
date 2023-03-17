@@ -1,7 +1,7 @@
 package Commands;
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 public class ShowCommand {
     public static void show(){
-        System.out.println("Элементы коллекции: " + CollectionOfOrgs.getOrganizationVector());
+        System.out.println("Элементы коллекции: " + CollectionManager.getOrganizationVector());
     }
 }

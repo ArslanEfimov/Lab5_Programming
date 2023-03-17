@@ -1,6 +1,6 @@
 package Commands;
 
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 import Exceptions.WrongValuesException;
 import Organization.Organization;
 
@@ -10,7 +10,7 @@ public class AddIfMaxCommand{
     public void addIfMax() throws WrongValuesException {
         AddCommand addCommand = new AddCommand();
         Organization organization = addCommand.elementAdding();
-        Iterator<Organization> iter = CollectionOfOrgs.getOrganizationVector().iterator();
+        Iterator<Organization> iter = CollectionManager.getOrganizationVector().iterator();
         int count = 0;
         while(iter.hasNext()){
             Organization i = iter.next();
@@ -19,8 +19,8 @@ public class AddIfMaxCommand{
                 count+=1;
             }
         }
-        if(count == CollectionOfOrgs.getOrganizationVector().size()){
-            CollectionOfOrgs.getOrganizationVector().add(organization);
+        if(count == CollectionManager.getOrganizationVector().size()){
+            CollectionManager.getOrganizationVector().add(organization);
             System.out.println("Элемент был успешно добавлен");
         }
         else{

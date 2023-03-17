@@ -1,11 +1,11 @@
 package Commands;
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 import Organization.Organization;
 import java.util.Iterator;
 public class RemoveFirstCommand {
     public void removeFirst() {
-        Iterator<Organization> iter = CollectionOfOrgs.getOrganizationVector().iterator();
-        if (CollectionOfOrgs.getOrganizationVector().size() != 0) {
+        Iterator<Organization> iter = CollectionManager.getOrganizationVector().iterator();
+        if (CollectionManager.getOrganizationVector().size() != 0) {
             while (iter.hasNext()) {
                 iter.next();
                 iter.remove();

@@ -1,6 +1,6 @@
 package Commands;
 
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 
 import java.util.Scanner;
 
@@ -9,6 +9,6 @@ public class RemoveByIdCommand {
         System.out.print("Введите значение id: ");
         Scanner scan = new Scanner(System.in);
         Long id = scan.nextLong();
-        CollectionOfOrgs.removeById(id);
+        CollectionManager.removeById(id);
     }
 }

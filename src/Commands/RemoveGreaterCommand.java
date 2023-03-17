@@ -1,6 +1,6 @@
 package Commands;
 
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 import Organization.Organization;
 
 import java.util.Iterator;
@@ -9,18 +9,18 @@ import java.util.Scanner;
 public class RemoveGreaterCommand {
     public void removeGreater() {
         Scanner scan = new Scanner(System.in);
-        if((CollectionOfOrgs.getOrganizationVector().size()) > 0){
+        if((CollectionManager.getOrganizationVector().size()) > 0){
             System.out.print("Введите значение annualTurnover: ");
             Float annualTurn = scan.nextFloat();
-            int s = CollectionOfOrgs.getOrganizationVector().size();
-            Iterator<Organization> iter = CollectionOfOrgs.getOrganizationVector().iterator();
+            int s = CollectionManager.getOrganizationVector().size();
+            Iterator<Organization> iter = CollectionManager.getOrganizationVector().iterator();
             while (iter.hasNext()) {
                 Organization i = iter.next();
                 if (i.getAnnualTurnover() > annualTurn) {
                     iter.remove();
                 }
             }
-            if (CollectionOfOrgs.getOrganizationVector().size() < s) {
+            if (CollectionManager.getOrganizationVector().size() < s) {
                 System.out.println("Элемент/элементы успешно удален/ны");
             } else {
                 System.out.println("Все элементы не превышают заданный");

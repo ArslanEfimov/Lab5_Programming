@@ -1,6 +1,6 @@
 package Commands;
 
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 import Exceptions.WrongValuesException;
 
 import java.util.Collections;
@@ -61,15 +61,15 @@ public class CommandsProcessing {
                     break;
                 case("add_element"):
                     AddCommand addCommand = new AddCommand();
-                    int k = CollectionOfOrgs.getOrganizationVector().size();
+                    int k = CollectionManager.getOrganizationVector().size();
                     addCommand.addElem();
-                    if (k < CollectionOfOrgs.getOrganizationVector().size()) System.out.println("Элемент успешно добавлен в коллекцию");
+                    if (k < CollectionManager.getOrganizationVector().size()) System.out.println("Элемент успешно добавлен в коллекцию");
                     System.out.print("enter command: ");
                     break;
                 case("print_descending"):
                     System.out.print("Элементы коллекции в порядке убывания: ");
-                    Collections.sort(CollectionOfOrgs.getOrganizationVector(), new OrganizationCompareAnnualTurn());
-                    System.out.println(CollectionOfOrgs.getOrganizationVector());
+                    Collections.sort(CollectionManager.getOrganizationVector(), new OrganizationCompareAnnualTurn());
+                    System.out.println(CollectionManager.getOrganizationVector());
                     System.out.print("enter command: ");
                     break;
                 case("remove_greater"):

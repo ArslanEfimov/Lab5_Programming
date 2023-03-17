@@ -1,5 +1,5 @@
 package Commands;
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 import Organization.Organization;
 import java.util.Iterator;
 import java.util.Objects;
@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class UpdateIdCommand {
     public void updateId(){
-        Iterator<Organization> iter = CollectionOfOrgs.getOrganizationVector().iterator();
-        if(CollectionOfOrgs.getOrganizationVector().size()!=0){
+        Iterator<Organization> iter = CollectionManager.getOrganizationVector().iterator();
+        if(CollectionManager.getOrganizationVector().size()!=0){
             System.out.print("Введите значение id: ");
             Scanner scan = new Scanner(System.in);
             Long id = scan.nextLong();

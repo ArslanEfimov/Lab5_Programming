@@ -1,8 +1,8 @@
 package Commands;
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 public class ClearCommand {
     public void clear(){
-        CollectionOfOrgs.getOrganizationVector().clear();
+        CollectionManager.getOrganizationVector().clear();
         System.out.println("Коллекция успешно очищена");
     }
 }

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Vector;
 
-public class CollectionOfOrgs{
+public class CollectionManager {
 
         private static Vector<Organization> organizationVector = new Vector<>();
 
@@ -15,7 +15,7 @@ public class CollectionOfOrgs{
     }
 
     public static void setOrganizationVector (Vector <Organization> organizationVector) {
-        CollectionOfOrgs.organizationVector = organizationVector;
+        CollectionManager.organizationVector = organizationVector;
     }
     public static boolean removeById(Long id){
         Iterator<Organization> iter = getOrganizationVector().iterator();

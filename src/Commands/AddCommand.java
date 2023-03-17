@@ -1,6 +1,6 @@
 package Commands;
 
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 import Exceptions.WrongValuesException;
 import Organization.Address;
 import Organization.Coordinates;
@@ -104,6 +104,6 @@ public class AddCommand {
     }
     public void addElem() throws WrongValuesException {
         AddCommand addCommand = new AddCommand();
-        CollectionOfOrgs.getOrganizationVector().add(addCommand.elementAdding());
+        CollectionManager.getOrganizationVector().add(addCommand.elementAdding());
     }
 }

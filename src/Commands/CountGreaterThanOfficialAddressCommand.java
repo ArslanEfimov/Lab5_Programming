@@ -1,6 +1,6 @@
 package Commands;
 
-import Collection.CollectionOfOrgs;
+import Collection.CollectionManager;
 import Organization.Organization;
 
 import java.util.Iterator;
@@ -8,11 +8,11 @@ import java.util.Scanner;
 
 public class CountGreaterThanOfficialAddressCommand{
     public void countGreaterThanOfficAddress(){
-        if(CollectionOfOrgs.getOrganizationVector().size()!=0) {
+        if(CollectionManager.getOrganizationVector().size()!=0) {
             Scanner scan = new Scanner(System.in);
             System.out.print("Введите адрес: ");
             String officialAddress = scan.nextLine();
-            Iterator<Organization> iter = CollectionOfOrgs.getOrganizationVector().iterator();
+            Iterator<Organization> iter = CollectionManager.getOrganizationVector().iterator();
             Integer j = 0;
             while (iter.hasNext()) {
                 Organization i = iter.next();
