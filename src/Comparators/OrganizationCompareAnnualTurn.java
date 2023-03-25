@@ -1,4 +1,4 @@
-package Commands;
+package Comparators;
 
 import Organization.Organization;
 

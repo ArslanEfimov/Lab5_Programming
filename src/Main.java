@@ -1,28 +1,24 @@
-import Commands.CommandsProcessing;
+import Exceptions.MustNotBeEmptyException;
+import Exceptions.NotInDeclaredLimitsException;
+import Exceptions.OrganizationNotFoundException;
 import Exceptions.WrongValuesException;
-import ParceFile.FileReader;
+import ParceFile.FileManagerReader;
+import Utility.CollectionManager;
+import Utility.CommandsManager;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws WrongValuesException{
-        FileReader fileReader = new FileReader();
-        try {
-            fileReader.readCollection(args[0]);
-        }catch(AccessDeniedException ex){
-            System.out.println("Не удалось прочитать файл, так как приложение не может получить доступ к этому файлу. " +
-                    "Свяжитесь с владельцем для выдачи прав доступа");
-        }
-        catch (IOException ex){
-            System.out.println("Непредвиденная ошибка во время чтения файла, загрузка приостановлена");
-        }
-        try {
-            CommandsProcessing commandsProcessing = new CommandsProcessing();
-            commandsProcessing.switchCommands();
-        } catch (NullPointerException e) {
-            System.out.println("В коллекции содержится null элемент");
-        }
+    public static void main(String[] args) throws WrongValuesException, IOException,
+            MustNotBeEmptyException, NotInDeclaredLimitsException, OrganizationNotFoundException {
+        FileManagerReader fileManagerReader = new FileManagerReader(args[0]);
+        CollectionManager collectionManager = new CollectionManager(fileManagerReader);
+        List<String> saveFileNameForExecute = new ArrayList<>();
+        CommandsManager commandsProcessing = new CommandsManager(collectionManager,fileManagerReader,saveFileNameForExecute);
+        commandsProcessing.commandManager();
+
     }
 
 }

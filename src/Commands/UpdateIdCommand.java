@@ -1,26 +1,59 @@
 package Commands;
-import Collection.CollectionManager;
+
+import Exceptions.OrganizationNotFoundException;
 import Organization.Organization;
+import Utility.CollectionManager;
+import Utility.ConsoleManager;
+
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.Scanner;
 
-public class UpdateIdCommand {
-    public void updateId(){
-        Iterator<Organization> iter = CollectionManager.getOrganizationVector().iterator();
-        if(CollectionManager.getOrganizationVector().size()!=0){
-            System.out.print("Введите значение id: ");
-            Scanner scan = new Scanner(System.in);
-            Long id = scan.nextLong();
-            while(iter.hasNext()){
-                Organization i = iter.next();
-                if(Objects.equals(i.getId(),id)){
-                    i.setId(Organization.generateId());
+public class UpdateIdCommand implements Command {
+    private CollectionManager collectionManager;
+    private ConsoleManager consoleManager;
+    public UpdateIdCommand(CollectionManager collectionManager){
+        this.collectionManager = collectionManager;
+        this.consoleManager = new ConsoleManager();
+    }
+    public UpdateIdCommand(){
+
+    }
+    @Override
+    public String getName() {
+        return "update_by_id";
+    }
+
+    @Override
+    public String getDescription() {
+        return "updates the element's id if it is equal to the given one";
+    }
+
+    @Override
+    public void execute(String argument){
+        try {
+            Iterator<Organization> iter = collectionManager.getIterator();
+            if (collectionManager.getCollectionSize() != 0) {
+                Long id = Long.parseLong(argument);
+                if(id>0) {
+                    if (collectionManager.getById(id) == null) throw new OrganizationNotFoundException();
+                    while (iter.hasNext()) {
+                        Organization i = iter.next();
+                        if (Objects.equals(i.getId(), id)) {
+                            i.setId(collectionManager.generateId());
+                            consoleManager.println("element id updated successfully");
+                        }
+                    }
+                }else{
+                    consoleManager.println("id must be greater than 0");
                 }
+            } else {
+                consoleManager.println("There are no items in the collection");
             }
+        }catch(NumberFormatException ex){
+            consoleManager.println("id must be represented by a number, enter the correct value");
+        }catch(OrganizationNotFoundException ex){
+            consoleManager.println("organization with this id was not found");
         }
-        else{
-            System.out.println("Элементов в коллекции нет");
-        }
+
     }
 }

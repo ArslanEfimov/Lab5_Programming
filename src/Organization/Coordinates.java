@@ -1,18 +1,13 @@
 package Organization;
 
-import Exceptions.WrongValuesException;
-
 public class Coordinates {
         private float x;
         private int y;
 
 
-        public Coordinates(float x, int y) throws WrongValuesException {
+        public Coordinates(float x, int y){
             this.x = x;
             this.y = y;
-            if ((((Float) x instanceof Float)==false)||((Integer) y instanceof Integer)==false){
-                throw new WrongValuesException("поле имеет неверное значение");
-            }
 
         }
         public float getX() {

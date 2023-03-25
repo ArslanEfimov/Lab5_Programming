@@ -1,15 +1,66 @@
 package Commands;
 
-import Collection.CollectionManager;
+import Exceptions.OrganizationNotFoundException;
+import Utility.CollectionManager;
+import Organization.Organization;
+import Utility.ConsoleManager;
 
-import java.util.Scanner;
+import java.util.Iterator;
+import java.util.Objects;
 
-public class RemoveByIdCommand {
-    public void removeById() {
-        System.out.print("Введите значение id: ");
-        Scanner scan = new Scanner(System.in);
-        Long id = scan.nextLong();
-        CollectionManager collectionManager = new CollectionManager();
-        collectionManager.removeById(id);
+public class RemoveByIdCommand implements Command {
+
+    //todo сюда передаем экземпляр класса ConsoleManager
+    private CollectionManager collectionManager;
+    private ConsoleManager consoleManager;
+    public RemoveByIdCommand(CollectionManager collectionManager){
+        this.collectionManager = collectionManager;
+        this.consoleManager = new ConsoleManager();
+    }
+    public RemoveByIdCommand(){
+
+    }
+
+    @Override
+    public String getName() {
+        return "remove_by_id";
+    }
+
+    @Override
+    public String getDescription() {
+        return "removes element from collection by id ";
+    }
+
+    @Override
+    public void execute(String argument) {
+        try {
+            if(collectionManager.getCollectionSize()!=0) {
+                Long id = Long.parseLong(argument);
+                if(id>0) {
+                    if (collectionManager.getById(id) == null) throw new OrganizationNotFoundException();
+                    Iterator<Organization> iter = collectionManager.getIterator();
+                    int i = 0;
+                    while (iter.hasNext()) {
+                        if (Objects.equals(iter.next().getId(), id)) {
+                            iter.remove();
+                            i += 1;
+                            consoleManager.println("Element deleted successfully");
+
+                        }
+                    }
+                    if (i != 1) {
+                        consoleManager.println("This id is not in the collection");
+                    }
+                }else{
+                    consoleManager.println("id must be greater than 0");
+                }
+            }else{
+                consoleManager.println("There are no elements in the collection");
+            }
+        } catch (NumberFormatException ex) {
+            consoleManager.println("id must be represented by a number, enter the correct value");
+        } catch (OrganizationNotFoundException ex) {
+            consoleManager.println("organization with this id was not found");
+        }
     }
 }

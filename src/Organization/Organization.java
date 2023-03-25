@@ -2,20 +2,20 @@ package Organization;
 
 import java.time.LocalDate;
 
-public class Organization extends NullPointerException {
+public class Organization {
 
         private Long id;
         private String name;
-        private Coordinates coordinates; //Поле не может быть null
-        private java.time.LocalDate creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
-        private Float annualTurnover; //Поле не может быть null, Значение поля должно быть больше 0
-        private String fullName; //Поле может быть null
-        private OrganizationType type; //Поле не может быть null
-        private Address officialAddress; //Поле не может быть null
+        private Coordinates coordinates;
+        private java.time.LocalDate creationDate;
+        private Float annualTurnover;
+        private String fullName;
+        private OrganizationType type;
+        private Address officialAddress;
 
 
         public Organization(Long id, String name,Coordinates coordinates,java.time.LocalDate creationDate, Float annualTurnover,
-                            String fullName, OrganizationType type, Address officialAddress) throws NullPointerException {
+                            String fullName, OrganizationType type, Address officialAddress) {
             this.id = id;
             this.name = name;
             this.coordinates = coordinates;
@@ -24,11 +24,6 @@ public class Organization extends NullPointerException {
             this.fullName = fullName;
             this.officialAddress = officialAddress;
             this.type = type;
-            if(id.equals(null)||name.equals(null)||coordinates.equals(null)||creationDate.equals(null)||
-                    type.equals(null)||officialAddress.equals(null)){
-                throw new NullPointerException("Одно или несколько полей элемента/элементов имеют значение null, " +
-                        "коллекция не может быть создана");
-            }
         }
 
         public Organization(){
@@ -113,11 +108,6 @@ public class Organization extends NullPointerException {
                     " type=" + type + '\n' +
                     " officialAddress=" + officialAddress +
                     '}'+'\n';
-        }
-
-        public static Long generateId(){
-            Long id =  (long) (1L + (Math.random() * (10000L)));
-            return id;
         }
 
 }

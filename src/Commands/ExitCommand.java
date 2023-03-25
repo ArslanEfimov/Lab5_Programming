@@ -1,35 +1,30 @@
 package Commands;
 
 import Exceptions.WrongAmountCommandsException;
-import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
-public class ShowCommand implements Command{
-    private CollectionManager collectionManager;
+public class ExitCommand implements Command{
     private ConsoleManager consoleManager;
-    public ShowCommand(CollectionManager collectionManager){
-        this.collectionManager = collectionManager;
-        this.consoleManager = new ConsoleManager();
-    }
-    public ShowCommand(){
-
+    public ExitCommand(){
+        consoleManager = new ConsoleManager();
     }
     @Override
     public String getName() {
-        return "show";
+        return "exit";
     }
 
     @Override
     public String getDescription() {
-        return "The command shows all items in the collection";
+        return "Terminates the application (without saving collection)";
     }
 
     @Override
     public void execute(String argument) {
         try {
             if (!argument.isEmpty() && !argument.equals(getName())) throw new WrongAmountCommandsException();
-            collectionManager.show();
-        } catch (WrongAmountCommandsException ex) {
+            consoleManager.println("Good bye, my dear)");
+            consoleManager.exit();
+        }catch (WrongAmountCommandsException ex) {
             consoleManager.println("incorrect command usage, usage example: " + getName());
         }
     }
