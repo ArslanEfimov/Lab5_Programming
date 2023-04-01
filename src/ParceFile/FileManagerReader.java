@@ -188,7 +188,7 @@ public class FileManagerReader {
                 consoleManager.println("the file cannot be read, check the permission");
             }
             else {
-                consoleManager.println("file not found, check file name");
+                consoleManager.println("file not found, check the file name");
             }
         }
         return resultOrganizations;
