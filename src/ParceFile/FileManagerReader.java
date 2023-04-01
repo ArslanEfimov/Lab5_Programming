@@ -2,6 +2,7 @@ package ParceFile;
 
 import Exceptions.MustNotBeEmptyException;
 import Exceptions.NotInDeclaredLimitsException;
+import Exceptions.XmlTegsWrongValuesException;
 import Organization.Address;
 import Organization.Coordinates;
 import Organization.Organization;
@@ -9,23 +10,23 @@ import Organization.OrganizationType;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class FileManagerReader {
-    private final ArrayDeque<String> value;
     private final Vector<Organization> resultOrganizations;
-    private final ArrayList<String> valuenew;
-    private final ArrayList<String> keys;
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
     private String fileName;
@@ -33,125 +34,171 @@ public class FileManagerReader {
 
     public FileManagerReader(String fileName) {
         resultOrganizations = new Vector<>();
-        value = new ArrayDeque<>();
-        valuenew = new ArrayList<>();
-        keys = new ArrayList<>();
         consoleManager = new ConsoleManager();
         collectionManager = new CollectionManager();
         this.fileName = fileName;
     }
 
-    public Vector<Organization> readCollection() throws IOException,NumberFormatException{
-        Vector<Organization> collection = new Vector<>();
-        try (Scanner scanner = new Scanner(Paths.get(fileName))){
-            scanner.nextLine();
-            scanner.nextLine();
-            while (scanner.hasNext()) {
-                String line = scanner.nextLine().trim();
-                String[] arrayValue = line.split("<.*?>");
-                addValue(arrayValue);
-                Pattern patternTegs = Pattern.compile("<[^/]+>");
-                Matcher matcher = patternTegs.matcher(line);
-                if (matcher.find()) {
-                    keys.add(matcher.group().substring(1, matcher.end() - 1));
+    public Vector<Organization> readCollection(){
+        XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+        Organization organization = null;
+        String[] tegs = new String[]{"id","name","coordinates","x","y","creationDate","annualTurnover", "type", "officialAddress", "street","fullName"};
+        List<String> listTegs = new ArrayList<>();
+        for(String list : tegs){
+            listTegs.add(list);
+        }
+        try{
+            FileInputStream fileInputStream = new FileInputStream(fileName);
+            XMLEventReader reader = xmlInputFactory.createXMLEventReader(fileInputStream);
+            if(fileInputStream.read()==-1) throw new NoSuchElementException();
+            int count = 0;
+            while(reader.hasNext()){
+                XMLEvent xmlEvent = reader.nextEvent();
+                if(xmlEvent.isStartElement()) {
+                    StartElement startElement = xmlEvent.asStartElement();
+                    if(startElement.getName().getLocalPart().equals("organizations"+count)){
+                        organization = new Organization();
+                    }
+                    if((!listTegs.contains(startElement.getName().getLocalPart())) && (!startElement.getName().getLocalPart().equals("organizations"+count))
+                        && (!startElement.getName().getLocalPart().equals("organizations")) && (!startElement.isStartDocument())) throw new XmlTegsWrongValuesException();
+                        if (startElement.getName().getLocalPart().equals("id")) {
+                            xmlEvent = reader.nextEvent();
+                            if((xmlEvent.asCharacters().getData().trim()).isEmpty()) throw new MustNotBeEmptyException();
+                            if((Long.parseLong(xmlEvent.asCharacters().getData().trim()))<0) throw new NotInDeclaredLimitsException();
+                            organization.setId(Long.parseLong(xmlEvent.asCharacters().getData().trim()));
+                            collectionManager.addIdToListForGenerate(Long.parseLong(xmlEvent.asCharacters().getData()));
+
+                        } else if (startElement.getName().getLocalPart().equals("name")) {
+                            xmlEvent = reader.nextEvent();
+                            if((xmlEvent.asCharacters().getData().trim()).isEmpty()) throw new MustNotBeEmptyException();
+                            organization.setName(xmlEvent.asCharacters().getData().trim());
+
+                        } else if (startElement.getName().getLocalPart().equals("coordinates")) {
+                            xmlEvent = reader.nextTag();
+                            StartElement startElement1 = xmlEvent.asStartElement();
+
+                            if((!listTegs.contains(startElement1.getName().getLocalPart())) || (startElement1.getName().getLocalPart().equals("y"))) throw new XmlTegsWrongValuesException();
+
+                            if(startElement1.getName().getLocalPart().equals("x")){
+                                xmlEvent = reader.nextEvent();
+                                if((xmlEvent.asCharacters().getData().trim()).isEmpty()) throw new MustNotBeEmptyException();
+                                float x = Float.parseFloat(xmlEvent.asCharacters().getData().trim());
+                                reader.nextTag();
+                                xmlEvent = reader.nextTag();
+                                StartElement startElement2 = xmlEvent.asStartElement();
+
+                                if((!listTegs.contains(startElement2.getName().getLocalPart())) || (startElement2.getName().getLocalPart().equals("x"))) throw new XmlTegsWrongValuesException();
+
+                                if(startElement2.getName().getLocalPart().equals("y")){
+                                    xmlEvent = reader.nextEvent();
+                                    if((xmlEvent.asCharacters().getData().trim()).isEmpty()) throw new MustNotBeEmptyException();
+                                    int y = Integer.parseInt(xmlEvent.asCharacters().getData().trim());
+                                    organization.setCoordinates(new Coordinates(x,y));
+                                }
+                            }
+                        } else if (startElement.getName().getLocalPart().equals("creationDate")) {
+                            xmlEvent = reader.nextEvent();
+                            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+                            if((xmlEvent.asCharacters().getData().trim()).isEmpty()) throw new MustNotBeEmptyException();
+                            if((LocalDate.parse(xmlEvent.asCharacters().getData().trim(), dateFormatter).getYear()>LocalDate.now().getYear())) throw new NotInDeclaredLimitsException();
+                            organization.setCreationDate(LocalDate.parse(xmlEvent.asCharacters().getData().trim(), dateFormatter));
+
+                        } else if (startElement.getName().getLocalPart().equals("annualTurnover")) {
+                            xmlEvent = reader.nextEvent();
+                            if((xmlEvent.asCharacters().getData().trim()).isEmpty()) throw new MustNotBeEmptyException();
+                            if((Float.parseFloat(xmlEvent.asCharacters().getData().trim()))<0) throw new NotInDeclaredLimitsException();
+                            organization.setAnnualTurnover(Float.parseFloat(xmlEvent.asCharacters().getData().trim()));
+
+                        } else if (startElement.getName().getLocalPart().equals("fullName")) {
+                            xmlEvent = reader.nextEvent();
+                            organization.setFullName(xmlEvent.asCharacters().getData().trim());
+
+                        } else if (startElement.getName().getLocalPart().equals("type")) {
+                                xmlEvent = reader.nextEvent();
+                                boolean type = false;
+                            if (xmlEvent.asCharacters().getData().trim().equals("коммерческий")) {
+                                organization.setType(OrganizationType.COMMERCIAL);
+                                type = true;
+                            }
+                            if (xmlEvent.asCharacters().getData().trim().equals("публичный")) {
+                                organization.setType(OrganizationType.PUBLIC);
+                                type = true;
+                            }
+                            if (xmlEvent.asCharacters().getData().trim().equals("правительство")) {
+                                organization.setType(OrganizationType.GOVERNMENT);
+                                type = true;
+                            }
+                            if (xmlEvent.asCharacters().getData().trim().equals("доверие")) {
+                                organization.setType(OrganizationType.TRUST);
+                                type = true;
+                            }
+                            if (xmlEvent.asCharacters().getData().trim().equals("закрытое акционерное общество")) {
+                                organization.setType(OrganizationType.PRIVATE_LIMITED_COMPANY);
+                                type = true;
+                            }
+                            if(type == false) throw new NumberFormatException();
+
+                            if((xmlEvent.asCharacters().getData().trim()).isEmpty()) throw new MustNotBeEmptyException();
+                        } else if (startElement.getName().getLocalPart().equals("officialAddress")) {
+                            xmlEvent = reader.nextTag();
+                            StartElement startElement1 = xmlEvent.asStartElement();
+                            if((!listTegs.contains(startElement1.getName().getLocalPart())) ||
+                                    (startElement1.getName().getLocalPart().equals("officialAddress"))) throw new XmlTegsWrongValuesException();
+                            if (startElement1.getName().getLocalPart().equals("street")) {
+                                xmlEvent = reader.nextEvent();
+                                if((xmlEvent.asCharacters().getData().trim()).isEmpty()) throw new MustNotBeEmptyException();
+                                if((xmlEvent.asCharacters().getData().trim()).length()>130) throw new NotInDeclaredLimitsException();
+                                organization.setOfficialAddress(new Address(xmlEvent.asCharacters().getData().trim()));
+                            }
+                        }
+
+                    }
+                if(xmlEvent.isEndElement()){
+                    EndElement endElement = xmlEvent.asEndElement();
+                    if(endElement.getName().getLocalPart().equals("organizations" + count)){
+                        resultOrganizations.add(organization);
+                        count+=1;
+                    }
                 }
-            }
-            valuenew.addAll(value);
+                }
+
         }catch(NoSuchElementException exception){
             consoleManager.println("Boot file is empty!");
         }
-        catch (NoSuchFileException ex){
-            consoleManager.println("Invalid file name specified! Please enter a valid name");
-            consoleManager.exit();
-        }catch(AccessDeniedException ex){
-        consoleManager.println(" File reading failed because application cannot access to this file.");
-        consoleManager.exit();
-    }
-        int elenemtCount = keys.size()/12;
-        int count = 0;
-        try {
-            for (int i = 0; i < elenemtCount; i++) {
-                Organization organization = new Organization();
-                organization.setId(Long.parseLong(valuenew.get(count)));
-                collectionManager.addIdToListForGenerate(Long.parseLong(valuenew.get(count)));
-                if(Long.parseLong(valuenew.get(count))<0) throw new NotInDeclaredLimitsException();
-                try {
-                    if (valuenew.get(count).isEmpty()) throw new MustNotBeEmptyException();
-                }catch (MustNotBeEmptyException ex){
-                    consoleManager.println("id not cannot be empty");
-                }
-                try {
-                    organization.setName(valuenew.get(count + 1));
-                    if(valuenew.get(count + 1).isEmpty()) throw new MustNotBeEmptyException();
-                }catch(MustNotBeEmptyException ex){
-                    consoleManager.println("name cannot be empty");
-                }
-                organization.setCoordinates(new Coordinates((float) Double.parseDouble(valuenew.get(count + 2)), (int) Double.parseDouble(valuenew.get(count + 3))));
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-                organization.setCreationDate(LocalDate.parse(valuenew.get(count+4),dateFormatter));
-                if(LocalDate.parse(valuenew.get(count+4),dateFormatter).getYear()>LocalDate.now().getYear()) throw new NotInDeclaredLimitsException();
-                organization.setAnnualTurnover((float) Double.parseDouble(valuenew.get(count + 5)));
-                if (valuenew.get(count + 6).equals("")) {
-                    organization.setFullName(null);
-                } else {
-                    organization.setFullName(valuenew.get(count + 6));
-                }
-                try {
-
-                    if (valuenew.get(count + 7).equals("коммерческий")) {
-                        organization.setType(OrganizationType.COMMERCIAL);
-                    }
-                    if (valuenew.get(count + 7).equals("публичный")) {
-                        organization.setType(OrganizationType.PUBLIC);
-                    }
-                    if (valuenew.get(count + 7).equals("правительство")) {
-                        organization.setType(OrganizationType.COMMERCIAL);
-                    }
-                    if (valuenew.get(count + 7).equals("доверие")) {
-                        organization.setType(OrganizationType.TRUST);
-                    }
-                    if (valuenew.get(count + 7).equals("закрытое акционерное общество")) {
-                        organization.setType(OrganizationType.PRIVATE_LIMITED_COMPANY);
-                    }
-                    if(valuenew.get(count + 7).isEmpty()) throw new MustNotBeEmptyException();
-                }catch (MustNotBeEmptyException ex) {
-                    consoleManager.println("organization type cannot be empty");
-                }
-                    if (valuenew.get(count + 8).equals("")) {
-                        organization.setOfficialAddress(null);
-                    } else {
-                        organization.setOfficialAddress(new Address(valuenew.get(count + 8)));
-                    }
-                count = count + 9;
-                resultOrganizations.add(organization);
-                collection = resultOrganizations;
-                }
-        }catch(NumberFormatException ex){
-            consoleManager.println("The file has been corrupted or it contains/contains incorrect/incorrect format/s of values!");
-            consoleManager.exit();
-        }catch (NotInDeclaredLimitsException ex){
-            consoleManager.println("the limit of some values does not meet the requirements");
-            consoleManager.exit();
+        catch (XMLStreamException ex){
+            consoleManager.println("xml file is corrupt, check it");
+            return new Vector<>();
+        } catch (XmlTegsWrongValuesException e) {
+            consoleManager.println("xml file tags contain invalid field names");
+            return new Vector<>();
         }catch (DateTimeParseException ex) {
             consoleManager.println("contains invalid date/dates");
-            consoleManager.exit();
+            return new Vector<>();
+        }catch(MustNotBeEmptyException ex){
+            consoleManager.println("the file contains empty values");
+            return new Vector<>();
+        }catch(NumberFormatException ex){
+            consoleManager.println("The file has been corrupted or it contains/contains incorrect/incorrect format/s of values!");
+            return new Vector<>();
+        }catch (NotInDeclaredLimitsException ex){
+            consoleManager.println("the limit of some values does not meet the requirements");
+            return new Vector<>();
+        } catch (IOException e) {
+            if(Paths.get(fileName).toFile().exists()){
+                consoleManager.println("the file cannot be read, check the permission");
+            }
+            else {
+                consoleManager.println("file not found, check file name");
+            }
         }
-        return collection;
-        }
+        return resultOrganizations;
 
-    private void addValue(String[] arrayValue){
-        for(String v: arrayValue){
-            value.addLast(v);
-        }
     }
-    public List<String> getKeys(){
-        return keys.subList(1,12);
-    }
-    public LinkedList<Long> getId(){
+    public LinkedList<Long> getId () {
         return collectionManager.getListForGenerateId();
     }
 
-    public String getFileName(){
+    public String getFileName () {
         return fileName;
     }
 }

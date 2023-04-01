@@ -32,7 +32,7 @@ public class AddIfMaxCommand implements Command{
     }
 
     @Override
-    public void execute(String argument) throws MustNotBeEmptyException, WrongValuesException, NotInDeclaredLimitsException, OrganizationNotFoundException {
+    public void execute(String argument){
         try {
             if(!argument.isEmpty() && !argument.equals(getName())) throw new WrongAmountCommandsException();
             Organization organization = new Organization();

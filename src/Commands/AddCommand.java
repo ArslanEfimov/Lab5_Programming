@@ -1,9 +1,6 @@
 package Commands;
 
-import Exceptions.MustNotBeEmptyException;
-import Exceptions.NotInDeclaredLimitsException;
 import Exceptions.WrongAmountCommandsException;
-import Exceptions.WrongValuesException;
 import Organization.Organization;
 import Utility.AskerOrganizations;
 import Utility.CollectionManager;
@@ -34,7 +31,7 @@ public class AddCommand implements Command{
     }
 
     @Override
-    public void execute(String argument) throws MustNotBeEmptyException, WrongValuesException, NotInDeclaredLimitsException {
+    public void execute(String argument){
         try {
              if (!argument.isEmpty() && !argument.equals(getName())) throw new WrongAmountCommandsException();
              Organization organization = new Organization();

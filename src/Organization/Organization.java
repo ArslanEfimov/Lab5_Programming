@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class Organization {
 
-        private Long id;
-        private String name;
-        private Coordinates coordinates;
-        private java.time.LocalDate creationDate;
-        private Float annualTurnover;
-        private String fullName;
-        private OrganizationType type;
-        private Address officialAddress;
+        private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+        private String name; //Поле не может быть null, Строка не может быть пустой
+        private Coordinates coordinates; //Поле не может быть null
+        private java.time.LocalDate creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+        private Float annualTurnover; //Поле не может быть null, Значение поля должно быть больше 0
+        private String fullName; //Поле может быть null
+        private OrganizationType type; //Поле не может быть null
+        private Address officialAddress; //Поле не может быть null
 
 
         public Organization(Long id, String name,Coordinates coordinates,java.time.LocalDate creationDate, Float annualTurnover,
@@ -98,7 +98,7 @@ public class Organization {
 
         @Override
         public String toString() {
-            return "        Organization{" +
+            return "Organization{" +
                     "id=" + id +
                     " name=" + name + '\n' +
                     " coordinates=" + coordinates + '\n' +
@@ -107,7 +107,7 @@ public class Organization {
                     " fullName=" + fullName + '\n' +
                     " type=" + type + '\n' +
                     " officialAddress=" + officialAddress +
-                    '}'+'\n';
+                    '}'+'\n'+'\n';
         }
 
 }

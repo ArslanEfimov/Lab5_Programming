@@ -1,7 +1,7 @@
 package Organization;
 
 public class Address {
-    private String street;
+    private String street; //Длина строки не должна быть больше 130, Поле может быть null
     public String getStreet() {
         return street;
     }

@@ -1,13 +1,13 @@
 package Utility;
 
 import Comparators.OrganizationCompareAnnualTurn;
-import Exceptions.MustNotBeEmptyException;
-import Exceptions.WrongValuesException;
 import Organization.Organization;
 import ParceFile.FileManagerReader;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Vector;
 
 public class CollectionManager {
 
@@ -16,7 +16,7 @@ public class CollectionManager {
     private LinkedList<Long> listForGenerateId = new LinkedList<>();
     public CollectionManager(){
     }
-    public CollectionManager(FileManagerReader fileManagerReader) throws IOException, WrongValuesException, MustNotBeEmptyException {
+    public CollectionManager(FileManagerReader fileManagerReader){
         this.fileManagerReader = fileManagerReader;
         organizationVector = fileManagerReader.readCollection();
     }
@@ -42,7 +42,7 @@ public class CollectionManager {
     }
     public void show(){
         ConsoleManager consoleManager = new ConsoleManager();
-        consoleManager.println("collection elements: " + organizationVector);
+        consoleManager.println("Collection elements: \n" + organizationVector);
     }
     public Organization getById(Long id){
         for(Organization organization: organizationVector){
