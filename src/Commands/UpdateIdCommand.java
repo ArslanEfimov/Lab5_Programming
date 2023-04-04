@@ -31,18 +31,12 @@ public class UpdateIdCommand implements Command {
     @Override
     public void execute(String argument){
         try {
-            Iterator<Organization> iter = collectionManager.getIterator();
             if (collectionManager.getCollectionSize() != 0) {
                 Long id = Long.parseLong(argument);
                 if(id>0) {
                     if (collectionManager.getById(id) == null) throw new OrganizationNotFoundException();
-                    while (iter.hasNext()) {
-                        Organization i = iter.next();
-                        if (Objects.equals(i.getId(), id)) {
-                            i.setId(collectionManager.generateId());
-                            consoleManager.println("element id updated successfully");
-                        }
-                    }
+                    collectionManager.iteratorForUpdateId(id);
+                    consoleManager.println("element id updated successfully");
                 }else{
                     consoleManager.println("id must be greater than 0");
                 }

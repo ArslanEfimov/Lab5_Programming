@@ -1,10 +1,7 @@
 package Commands;
-
-import Organization.Organization;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
-import java.util.Iterator;
 
 public class RemoveGreaterCommand implements Command{
     private CollectionManager collectionManager;
@@ -32,15 +29,9 @@ public class RemoveGreaterCommand implements Command{
         try {
             if (collectionManager.getCollectionSize() > 0) {
                 Float annualTurn = Float.parseFloat(argument);
-                int s = collectionManager.getCollectionSize();
-                Iterator<Organization> iter = collectionManager.getIterator();
-                while (iter.hasNext()) {
-                    Organization i = iter.next();
-                    if (i.getAnnualTurnover() > annualTurn) {
-                        iter.remove();
-                    }
-                }
-                if (collectionManager.getCollectionSize() < s) {
+                int size = collectionManager.getCollectionSize();
+                collectionManager.iteratorRemoveGreater(annualTurn);
+                if (collectionManager.getCollectionSize() < size) {
                     consoleManager.println("Element(s) successfully removed(s)");
                 } else {
                     consoleManager.println("All elements do not exceed the specified");

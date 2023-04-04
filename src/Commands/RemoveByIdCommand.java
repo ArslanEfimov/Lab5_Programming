@@ -38,17 +38,10 @@ public class RemoveByIdCommand implements Command {
                 Long id = Long.parseLong(argument);
                 if(id>0) {
                     if (collectionManager.getById(id) == null) throw new OrganizationNotFoundException();
-                    Iterator<Organization> iter = collectionManager.getIterator();
-                    int i = 0;
-                    while (iter.hasNext()) {
-                        if (Objects.equals(iter.next().getId(), id)) {
-                            iter.remove();
-                            i += 1;
-                            consoleManager.println("Element deleted successfully");
-
-                        }
+                    if(collectionManager.iteratorForRemoveById(id)==true){
+                        consoleManager.println("Element deleted successfully");
                     }
-                    if (i != 1) {
+                    else{
                         consoleManager.println("This id is not in the collection");
                     }
                 }else{

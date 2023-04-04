@@ -1,4 +1,7 @@
 package Exceptions;
 
-public class XmlTegsWrongValuesException extends Exception{
+public class IncorrectValueException extends Exception{
+    public IncorrectValueException(String message){
+        super(message);
+    }
 }

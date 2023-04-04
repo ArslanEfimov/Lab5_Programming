@@ -28,8 +28,8 @@ public class AskerOrganizations {
         return name;
     }
 
-    public float setX() {
-        float x;
+    public Float setX() {
+        Float x;
         while (true) {
             try {
                 consoleManager.print("enter x coordinate: ");
@@ -58,7 +58,7 @@ public class AskerOrganizations {
     }
 
     public Coordinates setCoordinates(){
-        float x = setX();
+        Float x = setX();
         int y = setY();
         return new Coordinates(x, y);
     }
@@ -113,7 +113,7 @@ public class AskerOrganizations {
     }
 
     public OrganizationType setType(){
-        consoleManager.println(" 1.COMMERCIAL  \n  2.PUBLIC  \n  3.GOVERNMENT  \n  4.TRUST \n 5.PRIVATE_LIMITED_COMPANY");
+        consoleManager.println("  1.COMMERCIAL  \n  2.PUBLIC  \n  3.GOVERNMENT  \n  4.TRUST \n 5.PRIVATE_LIMITED_COMPANY");
         int orgNumber;
             while (true) {
                 try {

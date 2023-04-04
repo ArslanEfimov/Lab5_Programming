@@ -31,14 +31,9 @@ public class RemoveFirstCommand implements Command {
     public void execute(String argument) {
         try {
             if (!argument.isEmpty() && !argument.equals(getName())) throw new WrongAmountCommandsException();
-            Iterator<Organization> iter = collectionManager.getIterator();
             if (collectionManager.getCollectionSize() != 0) {
-                while (iter.hasNext()) {
-                    iter.next();
-                    iter.remove();
-                    consoleManager.println("The first element was successfully removed!");
-                    break;
-                }
+                collectionManager.iteratorRemoveFirstElement();
+                consoleManager.println("The first element was successfully removed!");
             } else {
                 consoleManager.println("There are no items in the collection!");
             }

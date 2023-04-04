@@ -5,15 +5,14 @@ import ParceFile.FileManagerReader;
 import ParceFile.FileManagerWriter;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
-
-import javax.xml.stream.XMLStreamException;
-import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
 public class SaveCommand implements Command{
     private FileManagerWriter fileManagerWriter;
     private ConsoleManager consoleManager;
+    private CollectionManager collectionManager;
     public SaveCommand(CollectionManager collectionManager, FileManagerReader reader){
+        this.collectionManager = collectionManager;
         this.fileManagerWriter = new FileManagerWriter(collectionManager, reader);
         this.consoleManager = new ConsoleManager();
     }
@@ -35,11 +34,10 @@ public class SaveCommand implements Command{
         try{
             if(!argument.isEmpty() && !argument.equals(getName())) throw new WrongAmountCommandsException();
             try {
-                fileManagerWriter.writePrettyInXml();
-            } catch (IOException | XMLStreamException e) {
-                throw new RuntimeException(e);
-            } catch (TransformerException e) {
-                throw new RuntimeException(e);
+                fileManagerWriter.writerInFile(collectionManager);
+                consoleManager.println("collection is saved");
+            } catch (IOException e) {
+                consoleManager.println("unable to write data to the file, most likely you do not have write access to the file");
             }
             }catch (WrongAmountCommandsException ex){
             consoleManager.println("incorrect command usage, usage example: " + getName());

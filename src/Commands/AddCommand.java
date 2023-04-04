@@ -1,5 +1,6 @@
 package Commands;
 
+import Exceptions.IncorrectValueException;
 import Exceptions.WrongAmountCommandsException;
 import Organization.Organization;
 import Utility.AskerOrganizations;
@@ -47,6 +48,8 @@ public class AddCommand implements Command{
              consoleManager.println("organization has been successfully added to the collection!");
         }catch (WrongAmountCommandsException ex){
             consoleManager.println("incorrect command usage, usage example: " + getName());
+        } catch (IncorrectValueException e) {
+            consoleManager.println("incorrect values");
         }
     }
 

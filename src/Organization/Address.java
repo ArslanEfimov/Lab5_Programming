@@ -1,13 +1,26 @@
 package Organization;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement(name = "officialAddress")
 public class Address {
+    @XmlElement(name = "street",required = true)
     private String street; //Длина строки не должна быть больше 130, Поле может быть null
+
+    @XmlTransient
     public String getStreet() {
         return street;
     }
 
     public void setStreet(String street) {
-        this.street = street;
+        if(street.length()<130 && !street.equals("")) {
+            this.street = street;
+        }
+    }
+    public Address(){
+
     }
     public Address(String street){
         this.street = street;

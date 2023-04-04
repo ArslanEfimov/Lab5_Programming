@@ -2,6 +2,7 @@ package Commands;
 
 import Exceptions.MustNotBeEmptyException;
 import Exceptions.NotInDeclaredLimitsException;
+import Exceptions.WrongAmountCommandsException;
 import Utility.CollectionManager;
 import Organization.Organization;
 import Utility.ConsoleManager;
@@ -34,20 +35,18 @@ public class CountGreaterThanOfficialAddressCommand implements Command{
         while(true) {
             try {
                 if (collectionManager.getCollectionSize() != 0) {
+                    try {
+                        if (!argument.isEmpty() && !argument.equals(getName()))
+                            throw new WrongAmountCommandsException();
+                    }catch (WrongAmountCommandsException ex){
+                        consoleManager.println("incorrect command usage, usage example: " + getName());
+                        break;
+                    }
                     consoleManager.print("enter address: ");
                     String officialAddress = consoleManager.readString();
                     if (officialAddress.isEmpty()) throw new MustNotBeEmptyException();
                     if(officialAddress.length()>130) throw new NotInDeclaredLimitsException();
-                    Iterator<Organization> iter = collectionManager.getIterator();
-                    int j = 0;
-                    while (iter.hasNext()) {
-                        Organization i = iter.next();
-                        Integer result = i.getOfficialAddress().getStreet().compareTo(officialAddress);
-                        if (result > 0) {
-                            j += 1;
-                        }
-                    }
-                    consoleManager.println("Count of elements: " + j);
+                    collectionManager.iteratorForCountGreaterThanOfficAddr(officialAddress);
                 } else {
                     consoleManager.println("There are no elements in the collection");
                 }break;
@@ -55,7 +54,6 @@ public class CountGreaterThanOfficialAddressCommand implements Command{
                 consoleManager.println("address cannot be empty");
             }catch(NotInDeclaredLimitsException ex){
                 consoleManager.println("string length must not exceed 130");
-
             }
         }
     }

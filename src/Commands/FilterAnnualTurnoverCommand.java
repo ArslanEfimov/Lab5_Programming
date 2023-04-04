@@ -32,16 +32,10 @@ public class FilterAnnualTurnoverCommand implements Command{
     public void execute(String argument) {
         Float annualTur;
         try {
-            Iterator<Organization> iter = collectionManager.getIterator();
             if (collectionManager.getCollectionSize() != 0) {
                 annualTur = Float.parseFloat(argument);
                 if(collectionManager.getByAnnualTurnover(annualTur)==null) throw new OrganizationNotFoundException();
-                while (iter.hasNext()) {
-                    Organization i = iter.next();
-                    if (Objects.equals(i.getAnnualTurnover(), annualTur)) {
-                        consoleManager.println(i);
-                    }
-                }
+                collectionManager.iteratorForFilterAnnualTurnover(annualTur);
             } else {
                 consoleManager.println("There are no items in the collection");
             }

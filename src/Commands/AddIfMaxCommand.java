@@ -43,16 +43,7 @@ public class AddIfMaxCommand implements Command{
             organization.setFullName(askerOrganizations.setFullName());
             organization.setOfficialAddress(askerOrganizations.setOfficialAddress());
             organization.setType(askerOrganizations.setType());
-            Iterator<Organization> iter = collectionManager.getIterator();
-            int count = 0;
-            while(iter.hasNext()){
-                Organization org = iter.next();
-                int result = organization.getAnnualTurnover().compareTo(org.getAnnualTurnover());
-                if(result > 0){
-                    count+=1;
-                }
-            }
-            if(count == collectionManager.getCollectionSize()){
+            if(collectionManager.iteratorForAddIfMax(organization)==true){
                 collectionManager.addNewElement(organization);
                 consoleManager.println("organization has been successfully added to the collection!");
             }
@@ -61,6 +52,8 @@ public class AddIfMaxCommand implements Command{
             }
         }catch (WrongAmountCommandsException ex){
             consoleManager.println("incorrect command usage, usage example: " + getName());
+        } catch (IncorrectValueException e) {
+            consoleManager.println("incorrect values");
         }
     }
 
