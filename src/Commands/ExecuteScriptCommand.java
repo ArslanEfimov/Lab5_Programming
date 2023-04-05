@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * execute_script command
+ */
 public class ExecuteScriptCommand implements Command {
     private ConsoleManager consoleManager;
     private CollectionManager collectionManager;
@@ -40,6 +43,10 @@ public class ExecuteScriptCommand implements Command {
         return "reads and executes a script from the specified file";
     }
 
+    /**
+     * execute script file
+     * @param argument
+     */
     @Override
     public void execute(String argument){
         File file = new File(argument);

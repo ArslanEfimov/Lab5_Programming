@@ -7,6 +7,9 @@ import Utility.ConsoleManager;
 
 import java.util.Iterator;
 
+/**
+ * remove_first command
+ */
 public class RemoveFirstCommand implements Command {
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -27,6 +30,11 @@ public class RemoveFirstCommand implements Command {
         return "remove first element in collection";
     }
 
+    /**
+     * remove first element in collection
+     * @param argument
+     * @exception WrongAmountCommandsException
+     */
     @Override
     public void execute(String argument) {
         try {

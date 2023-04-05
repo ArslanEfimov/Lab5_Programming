@@ -8,6 +8,9 @@ import Utility.ConsoleManager;
 import java.util.Iterator;
 import java.util.Objects;
 
+/**
+ * update_by_id command
+ */
 public class UpdateIdCommand implements Command {
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -28,6 +31,12 @@ public class UpdateIdCommand implements Command {
         return "updates the element's id if it is equal to the given one";
     }
 
+    /**
+     * updates the element's id if it is equal to the given one
+     * @param argument
+     * @exception NumberFormatException
+     * @exception OrganizationNotFoundException
+     */
     @Override
     public void execute(String argument){
         try {

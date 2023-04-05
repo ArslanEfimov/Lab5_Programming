@@ -4,6 +4,9 @@ import Exceptions.WrongAmountCommandsException;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
+/**
+ * print_descending command
+ */
 public class PrintDescendingCommand implements Command{
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -24,6 +27,11 @@ public class PrintDescendingCommand implements Command{
         return "command lists all elements in descending order";
     }
 
+    /**
+     * command lists all elements in descending order
+     * @param argument
+     * @exception WrongAmountCommandsException
+     */
     @Override
     public void execute(String argument) {
         try {

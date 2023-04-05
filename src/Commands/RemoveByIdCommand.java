@@ -8,6 +8,9 @@ import Utility.ConsoleManager;
 import java.util.Iterator;
 import java.util.Objects;
 
+/**
+ * remove_by_id command
+ */
 public class RemoveByIdCommand implements Command {
 
     //todo сюда передаем экземпляр класса ConsoleManager
@@ -31,6 +34,12 @@ public class RemoveByIdCommand implements Command {
         return "removes element from collection by id ";
     }
 
+    /**
+     * removes element from collection by id
+     * @param argument
+     * @exception OrganizationNotFoundException
+     * @exception NumberFormatException
+     */
     @Override
     public void execute(String argument) {
         try {

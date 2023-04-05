@@ -6,6 +6,9 @@ import Organization.Address;
 import Organization.Coordinates;
 import Organization.OrganizationType;
 
+/**
+ * builds an object of type Organization
+ */
 public class AskerOrganizations {
     private ConsoleManager consoleManager;
 
@@ -13,6 +16,11 @@ public class AskerOrganizations {
         this.consoleManager = new ConsoleManager();
     }
 
+    /**
+     * set correct name for Organization
+     * @return name
+     * @exception MustNotBeEmptyException
+     */
     public String setName(){
         String name;
         while (true) {
@@ -28,6 +36,11 @@ public class AskerOrganizations {
         return name;
     }
 
+    /**
+     * set correct x coordinate for Organization
+     * @return x
+     * @exception NumberFormatException
+     */
     public Float setX() {
         Float x;
         while (true) {
@@ -43,6 +56,11 @@ public class AskerOrganizations {
 
     }
 
+    /**
+     * set correct y coordinates for Organization
+     * @return y
+     * @exception NumberFormatException
+     */
     public int setY() {
         int y;
         while (true) {
@@ -57,12 +75,22 @@ public class AskerOrganizations {
         return y;
     }
 
+    /**
+     * set Coordinates
+     * @return Coordinates(x, y)
+     */
     public Coordinates setCoordinates(){
         Float x = setX();
         int y = setY();
         return new Coordinates(x, y);
     }
 
+    /**
+     * set correct annualTurnover for Organization
+     * @return annualTurnover
+     * @exception NotInDeclaredLimitsException
+     * @exception NumberFormatException
+     */
     public Float setAnnualTurnover(){
         Float annualTrunover;
         while (true) {
@@ -80,6 +108,10 @@ public class AskerOrganizations {
         return annualTrunover;
     }
 
+    /**
+     * set correct fullName for Organization
+     * @return fullName
+     */
     public String setFullName() {
         String fullName;
         consoleManager.print("enter fullName: ");
@@ -89,6 +121,13 @@ public class AskerOrganizations {
         }
         return fullName;
     }
+
+    /**
+     * set correct street
+     * @return street
+     * @exception NotInDeclaredLimitsException
+     * @exception MustNotBeEmptyException
+     */
     public String setStreet(){
         String street;
         while (true) {
@@ -107,11 +146,22 @@ public class AskerOrganizations {
         return street;
 
     }
+
+    /**
+     * set officialAddress
+     * @return officialAddress
+     */
     public Address setOfficialAddress(){
         Address officialAddress = new Address(setStreet());
         return officialAddress;
     }
 
+    /**
+     * set correct type of Organization
+     * @return type
+     * @exception NumberFormatException
+     * @exception NotInDeclaredLimitsException
+     */
     public OrganizationType setType(){
         consoleManager.println("  1.COMMERCIAL  \n  2.PUBLIC  \n  3.GOVERNMENT  \n  4.TRUST \n 5.PRIVATE_LIMITED_COMPANY");
         int orgNumber;

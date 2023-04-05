@@ -4,6 +4,9 @@ import Exceptions.WrongAmountCommandsException;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
+/**
+ * show command
+ */
 public class ShowCommand implements Command{
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -24,6 +27,11 @@ public class ShowCommand implements Command{
         return "The command shows all items in the collection";
     }
 
+    /**
+     * The command shows all items in the collection
+     * @param argument
+     * @exception WrongAmountCommandsException
+     */
     @Override
     public void execute(String argument) {
         try {

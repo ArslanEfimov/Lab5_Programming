@@ -3,6 +3,9 @@ import Exceptions.WrongAmountCommandsException;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
+/**
+ * clear command
+ */
 public class ClearCommand implements Command {
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -23,6 +26,11 @@ public class ClearCommand implements Command {
         return "clear collection";
     }
 
+    /**
+     * clears all elements in the collection
+     * @param argument
+     * @exception WrongAmountCommandsException
+     */
     @Override
     public void execute(String argument) {
         try {

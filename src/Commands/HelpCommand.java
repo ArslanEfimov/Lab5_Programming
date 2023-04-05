@@ -5,6 +5,9 @@ import Utility.CommandsManager;
 import Utility.ConsoleManager;
 import java.util.List;
 
+/**
+ * help command
+ */
 public class HelpCommand implements Command{
     private CommandsManager commandsManager = new CommandsManager();
     private ConsoleManager consoleManager;
@@ -22,6 +25,11 @@ public class HelpCommand implements Command{
         return "command gives a summary of all other commands";
     }
 
+    /**
+     * command gives a summary of all other commands
+     * @param argument
+     * @exception WrongAmountCommandsException
+     */
     @Override
     public void execute(String argument){
         try {

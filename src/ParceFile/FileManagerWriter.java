@@ -9,6 +9,9 @@ import javax.xml.bind.Marshaller;
 import java.io.*;
 import java.nio.file.Paths;
 
+/**
+ * class for serializing data from a file
+ */
 public class FileManagerWriter {
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -20,6 +23,12 @@ public class FileManagerWriter {
         this.fileManagerReader = fileManagerReader;
     }
 
+    /**
+     * method converts data from collection to file
+     * @param collectionManager
+     * @throws FileNotFoundException
+     * @exception JAXBException
+     */
     public void writerInFile(CollectionManager collectionManager) throws FileNotFoundException {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(CollectionManager.class);

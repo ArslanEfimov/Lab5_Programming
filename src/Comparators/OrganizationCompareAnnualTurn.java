@@ -4,6 +4,9 @@ import Organization.Organization;
 
 import java.util.Comparator;
 
+/**
+ * a class that sorts a collection in descending order
+ */
 public class OrganizationCompareAnnualTurn implements Comparator<Organization> {
     @Override
     public int compare(Organization organization1, Organization organization2) {

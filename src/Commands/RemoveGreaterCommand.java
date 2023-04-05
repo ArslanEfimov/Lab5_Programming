@@ -2,7 +2,9 @@ package Commands;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
-
+/**
+ * remove_greater command
+ */
 public class RemoveGreaterCommand implements Command{
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -24,6 +26,11 @@ public class RemoveGreaterCommand implements Command{
                 "are larger than the given(are compared by the value of the annualTurnover) ";
     }
 
+    /**
+     * removes elements from the collection that are larger than the given(are compared by the value of the annualTurnover)
+     * @param argument
+     * @exception NumberFormatException
+     */
     @Override
     public void execute(String argument) {
         try {

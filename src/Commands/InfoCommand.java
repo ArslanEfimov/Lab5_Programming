@@ -4,6 +4,9 @@ import Exceptions.WrongAmountCommandsException;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
+/**
+ * info command
+ */
 public class InfoCommand implements Command{
 
     private CollectionManager collectionManager;
@@ -25,6 +28,11 @@ public class InfoCommand implements Command{
         return "information about collection";
     }
 
+    /**
+     * information about collection
+     * @param argument
+     * @exception WrongAmountCommandsException
+     */
     @Override
     public void execute(String argument) {
         try {

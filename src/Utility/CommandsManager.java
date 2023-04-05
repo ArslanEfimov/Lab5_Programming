@@ -8,11 +8,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * class to manage command
+ */
 public class CommandsManager {
     String[] s;
     private HashMap<String, Command> commandsMap;
     private List<Command> commandsListForHelp;
     private ConsoleManager consoleManager;
+
+    /**
+     * constructor that fills the collection with commands
+     * @param collectionManager
+     * @param reader
+     * @param saveFileNameForExecute
+     */
     public CommandsManager(CollectionManager collectionManager, FileManagerReader reader,List<String> saveFileNameForExecute){
         this.consoleManager = new ConsoleManager();
         commandsMap = new HashMap<>();
@@ -34,6 +44,10 @@ public class CommandsManager {
         commandsMap.put("exit", new ExitCommand());
 
     }
+
+    /**
+     * constructor for filling collection commands for help command
+     */
     public CommandsManager(){
         commandsListForHelp = new ArrayList<>();
         commandsListForHelp.add(new ClearCommand());
@@ -53,7 +67,10 @@ public class CommandsManager {
         commandsListForHelp.add(new ExitCommand());
     }
 
-
+    /**
+     * calls execution of commands by name
+     * @exception WrongValuesException
+     */
     public void commandManager(){
         consoleManager.print("enter command: ");
         while (consoleManager.ifScannerHasNext()) {
@@ -75,9 +92,21 @@ public class CommandsManager {
         }
     }
 
+    /**
+     * a method that returns a collection for the help command
+     * @return commandsListForHelp
+     */
     public List<Command> getCommandsList(){
         return commandsListForHelp;
     }
+
+    /**
+     * a method that returns a collection of commands
+     * @param collectionManager
+     * @param saveFileNameForExecute
+     * @param reader
+     * @return commandsMap
+     */
     public HashMap<String, Command> getCommandsMap(CollectionManager collectionManager,List<String> saveFileNameForExecute,FileManagerReader reader){
         commandsMap = new HashMap<>();
         commandsMap.put("clear", new ClearCommand(collectionManager));

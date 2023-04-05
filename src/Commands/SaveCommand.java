@@ -7,6 +7,9 @@ import Utility.CollectionManager;
 import Utility.ConsoleManager;
 import java.io.IOException;
 
+/**
+ * save command
+ */
 public class SaveCommand implements Command{
     private FileManagerWriter fileManagerWriter;
     private ConsoleManager consoleManager;
@@ -29,6 +32,11 @@ public class SaveCommand implements Command{
         return "saves the collection to a file";
     }
 
+    /**
+     * saves the collection to a file
+     * @param argument
+     * @exception WrongAmountCommandsException
+     */
     @Override
     public void execute(String argument){
         try{

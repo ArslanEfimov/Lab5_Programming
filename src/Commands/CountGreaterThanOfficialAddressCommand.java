@@ -9,6 +9,9 @@ import Utility.ConsoleManager;
 
 import java.util.Iterator;
 
+/**
+ * CountGreaterThanOfficialAddress command
+ */
 public class CountGreaterThanOfficialAddressCommand implements Command{
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -30,6 +33,13 @@ public class CountGreaterThanOfficialAddressCommand implements Command{
                 "whose official address value is greater than the given value";
     }
 
+    /**
+     * displays the number of elements whose officialAddress field value is greater than the given one
+     * @param argument
+     * @exception WrongAmountCommandsException
+     * @exception MustNotBeEmptyException
+     * @exception NotInDeclaredLimitsException
+     */
     @Override
     public void execute(String argument) {
         while(true) {

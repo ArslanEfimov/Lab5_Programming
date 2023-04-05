@@ -9,6 +9,9 @@ import Utility.ConsoleManager;
 
 import java.util.Iterator;
 
+/**
+ * add if max command
+ */
 public class AddIfMaxCommand implements Command{
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -31,6 +34,12 @@ public class AddIfMaxCommand implements Command{
         return "adds an element to the collection if it exceeds the value of the largest element";
     }
 
+    /**
+     * adds a new element to the collection if its annual turnover is greater than the maximum in the collection
+     * @param argument
+     * @exception WrongAmountCommandsException
+     * @exception IncorrectValueException
+     */
     @Override
     public void execute(String argument){
         try {

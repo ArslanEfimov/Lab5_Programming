@@ -1,5 +1,8 @@
 package Organization;
 
+/**
+ * Organization enum OrganizationType
+ */
 public enum OrganizationType {
     COMMERCIAL("коммерческий"),
     PUBLIC("публичный"),

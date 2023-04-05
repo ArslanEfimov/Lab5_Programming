@@ -1,17 +1,15 @@
 package Organization;
-
-
-
 import Exceptions.IncorrectValueException;
 import ParceFile.LocalDateAdapter;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
+
+/**
+ * Main Organization class
+ */
 @XmlRootElement(name = "organization")
 public class Organization {
         @XmlElement(name = "id", required = true)
@@ -31,7 +29,17 @@ public class Organization {
         @XmlElement(name = "officialAddress", required = true)
         private Address officialAddress; //Поле не может быть null
 
-
+    /**
+     * constructor for filling in Organization fields
+     * @param id
+     * @param name
+     * @param coordinates
+     * @param creationDate
+     * @param annualTurnover
+     * @param fullName
+     * @param type
+     * @param officialAddress
+     */
         public Organization(Long id, String name,Coordinates coordinates,java.time.LocalDate creationDate, Float annualTurnover,
                             String fullName, OrganizationType type, Address officialAddress) {
             this.id = id;
@@ -54,7 +62,12 @@ public class Organization {
             return id;
         }
 
-        public void setId(Long id) {
+    /**
+     * setter for id
+     * @param id
+     * @exception IllegalArgumentException
+     */
+    public void setId(Long id) {
             if(id==null || id<=0){
                 throw new IllegalArgumentException("Id must be greater than 0 and cannot be null");
             }
@@ -66,7 +79,12 @@ public class Organization {
             return name;
         }
 
-        public void setName(String name) throws IncorrectValueException {
+    /**
+     * setter for name
+     * @param name
+     * @throws IncorrectValueException
+     */
+    public void setName(String name) throws IncorrectValueException {
             if(name == null || name.isEmpty()){
                 throw new IncorrectValueException("Name cannot be null or empty");
             }
@@ -78,8 +96,12 @@ public class Organization {
             return coordinates;
         }
 
-
-        public void setCoordinates(Coordinates coordinates) throws IncorrectValueException {
+    /**
+     * setter for Coordinates
+     * @param coordinates
+     * @throws IncorrectValueException
+     */
+    public void setCoordinates(Coordinates coordinates) throws IncorrectValueException {
             if(coordinates == null){
                 throw new IncorrectValueException("Coordinates cannot be null");
             }
@@ -91,7 +113,12 @@ public class Organization {
             return creationDate;
         }
 
-        public void setCreationDate(LocalDate creationDate) throws IncorrectValueException {
+    /**
+     * setter for Creation date
+     * @param creationDate
+     * @throws IncorrectValueException
+     */
+    public void setCreationDate(LocalDate creationDate) throws IncorrectValueException {
             if(creationDate == null){
                 throw new IncorrectValueException("Creation date cannot be null");
             }
@@ -103,7 +130,12 @@ public class Organization {
             return annualTurnover;
         }
 
-        public void setAnnualTurnover(Float annualTurnover) throws IncorrectValueException {
+    /**
+     * setter for Annual Turnover
+     * @param annualTurnover
+     * @throws IncorrectValueException
+     */
+    public void setAnnualTurnover(Float annualTurnover) throws IncorrectValueException {
             if(annualTurnover<=0){
                 throw new IncorrectValueException("Annual turnover must be grater than 0");
             }
@@ -115,7 +147,12 @@ public class Organization {
             return fullName;
         }
 
-        public void setFullName(String fullName) throws IncorrectValueException {
+    /**
+     * setter for full Name Organization
+     * @param fullName
+     * @throws IncorrectValueException
+     */
+    public void setFullName(String fullName) throws IncorrectValueException {
             if(fullName!=null && fullName.isEmpty()){
                 throw new IncorrectValueException("Full name cannot be an empty string");
             }
@@ -127,7 +164,11 @@ public class Organization {
             return type;
         }
 
-        public void setType(OrganizationType type) {
+    /**
+     * setter for type Organization
+     * @param type
+     */
+    public void setType(OrganizationType type) {
             this.type = type;
         }
 
@@ -136,12 +177,20 @@ public class Organization {
             return officialAddress;
         }
 
-        public void setOfficialAddress(Address officialAddress) {
+    /**
+     * setter for Official Address
+     * @param officialAddress
+     */
+    public void setOfficialAddress(Address officialAddress) {
 
             this.officialAddress = officialAddress;
         }
 
-        @Override
+    /**
+     *
+     * @return {id, name, coordinates, creationDate, annualTurnover, fullName, type, officialAddress},
+     */
+    @Override
         public String toString() {
             return "Organization{" +
                     "id=" + id +

@@ -1,10 +1,10 @@
 package Organization;
-
 import Exceptions.IncorrectValueException;
-
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Organization class Coordinates
+ */
 @XmlType(propOrder = {"x","y"})
 public class Coordinates {
         private Float x;
@@ -24,7 +24,12 @@ public class Coordinates {
             return x;
         }
 
-        public void setX(Float x) throws IncorrectValueException {
+    /**
+     *
+     * @param x
+     * @throws IncorrectValueException
+     */
+    public void setX(Float x) throws IncorrectValueException {
             if(x == null){
                 throw new IncorrectValueException("x cannot be null");
             }
@@ -35,7 +40,12 @@ public class Coordinates {
             return y;
         }
 
-        public void setY(int y) throws IncorrectValueException {
+    /**
+     *
+     * @param y
+     * @throws IncorrectValueException
+     */
+    public void setY(int y) throws IncorrectValueException {
             if((y<=MIN_Y && (y!=0))){
                 this.y = y;
                 throw new IncorrectValueException("y must be greater than -98");
@@ -44,7 +54,11 @@ public class Coordinates {
 
         }
 
-        @Override
+    /**
+     *
+     * @return x and y Coordinates
+     */
+    @Override
         public String toString() {
             return "Coordinates{" +
                     "x=" + x +

@@ -8,6 +8,9 @@ import Utility.ConsoleManager;
 import java.util.Iterator;
 import java.util.Objects;
 
+/**
+ * filter_by_annual_turnover command
+ */
 public class FilterAnnualTurnoverCommand implements Command{
     private CollectionManager collectionManager;
     private ConsoleManager consoleManager;
@@ -28,6 +31,12 @@ public class FilterAnnualTurnoverCommand implements Command{
         return "displays all items whose annual turnover matches the given";
     }
 
+    /**
+     * displays all items whose annual turnover matches the given
+     * @param argument
+     * @exception OrganizationNotFoundException
+     * @exception NumberFormatException
+     */
     @Override
     public void execute(String argument) {
         Float annualTur;

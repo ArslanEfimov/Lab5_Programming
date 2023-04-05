@@ -8,6 +8,10 @@ import ParceFile.FileManagerReader;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
+
+/**
+ * collection class
+ */
 @XmlRootElement(name = "organizations")
 public class CollectionManager {
     @XmlElement(name = "organization")
@@ -21,35 +25,78 @@ public class CollectionManager {
         organizationVector = fileManagerReader.readCollection();
     }
 
+    /**
+     * basic setter for Organization collection
+     * @param organizationVector
+     */
     public void setOrganizationVector (Vector <Organization> organizationVector) {
         this.organizationVector = organizationVector;
     }
+
+    /**
+     * basic getter for Organization collection
+     * @return organizationVector
+     */
     public Vector<Organization> getCollectinVector(){
         return organizationVector;
     }
 
+    /**
+     * method for clear collection
+     */
     public void clear() {
         organizationVector.clear();
     }
+
+    /**
+     * method to get an iterator
+     * @return organizationVector.iterator()
+     */
     public Iterator<Organization> getIterator(){
         return organizationVector.iterator();
     }
+
+    /**
+     * method to get collection size
+     * @return size collection
+     */
     public int getCollectionSize(){
         return organizationVector.size();
     }
+
+    /**
+     * method to get collection first element
+     * @return first element in collection
+     */
     public Organization getFirstElement(){
         return organizationVector.firstElement();
     }
+
+    /**
+     * a method that shows the elements of a collection
+     */
     public void show(){
         ConsoleManager consoleManager = new ConsoleManager();
         consoleManager.println("Collection elements: \n" + organizationVector);
     }
+
+    /**
+     * a method to check that an organization with this id exists
+     * @param id
+     * @return organization or null
+     */
     public Organization getById(Long id){
         for(Organization organization: organizationVector){
             if(organization.getId().equals(id)) return organization;
         }
         return null;
     }
+
+    /**
+     * a method to check that an organization with this annualTurnover exists
+     * @param annualTurnover
+     * @return organization or null
+     */
     public Organization getByAnnualTurnover(Float annualTurnover){
         for(Organization organization: organizationVector){
             if(organization.getAnnualTurnover().equals(annualTurnover)) return organization;
@@ -57,16 +104,30 @@ public class CollectionManager {
         return null;
     }
 
+    /**
+     * a method that returns the elements of a collection in descending order
+     * @return sorted organizationVector
+     */
     public Vector<Organization> printDescending(){
         Collections.sort(organizationVector, new OrganizationCompareAnnualTurn());
         return organizationVector;
     }
+
+    /**
+     * method which add element in collection
+     * @param organization
+     */
     public void addNewElement(Organization organization){
         organizationVector.add(organization);
     }
     public LinkedList<Long> getListForGenerateId(){
         return listForGenerateId;
     }
+
+    /**
+     * method for generate id
+     * @return id
+     */
     public Long generateId(){
         Long id;
         fillListId();
@@ -81,6 +142,11 @@ public class CollectionManager {
         return null;
     }
 
+    /**
+     * iterator for add_if_max command
+     * @param organization
+     * @return boolean
+     */
     public boolean iteratorForAddIfMax(Organization organization){
         Iterator<Organization> iter = getIterator();
         int count = 0;
@@ -99,6 +165,10 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * iterator for count_greater_than_official_address command
+     * @param officialAddress
+     */
     public void iteratorForCountGreaterThanOfficAddr(String officialAddress){
         ConsoleManager consoleManager = new ConsoleManager();
         Iterator<Organization> iter = getIterator();
@@ -113,6 +183,10 @@ public class CollectionManager {
         consoleManager.println("Count of elements: " + j);
     }
 
+    /**
+     * iterator for filter_by_annual_turnover command
+     * @param annualTur
+     */
     public void iteratorForFilterAnnualTurnover(Float annualTur){
         ConsoleManager consoleManager = new ConsoleManager();
         Iterator<Organization> iter = getIterator();
@@ -124,6 +198,11 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * iterator for remove_by_id command
+     * @param id
+     * @return boolean
+     */
     public boolean iteratorForRemoveById(Long id){
         Iterator<Organization> iter = getIterator();
         int i = 0;
@@ -141,6 +220,10 @@ public class CollectionManager {
             return false;
         }
     }
+
+    /**
+     * iterator for remove_first command
+     */
     public void iteratorRemoveFirstElement(){
         Iterator<Organization> iter = getIterator();
         while (iter.hasNext()) {
@@ -149,6 +232,11 @@ public class CollectionManager {
             break;
         }
     }
+
+    /**
+     * iterator for remove_greater command
+     * @param annualTurn
+     */
     public void iteratorRemoveGreater(Float annualTurn){
         Iterator<Organization> iter = getIterator();
         while (iter.hasNext()) {
@@ -158,6 +246,11 @@ public class CollectionManager {
             }
         }
     }
+
+    /**
+     * iterator for update_by_id command
+     * @param id
+     */
     public void iteratorForUpdateId(Long id) {
         Iterator<Organization> iter = getIterator();
         while (iter.hasNext()) {
@@ -167,11 +260,21 @@ public class CollectionManager {
             }
         }
     }
+
+    /**
+     * method for filling collection id with identifiers
+     */
     public void fillListId(){
         for(Organization organization : organizationVector){
             listForGenerateId.add(organization.getId());
         }
     }
+
+    /**
+     * a method that checks for a match of id in the collection
+     * @param id
+     * @return boolean
+     */
     public boolean checkId(Long id){
             if (listForGenerateId.contains(id)) {
                 return true;
@@ -182,6 +285,10 @@ public class CollectionManager {
 
     }
 
+    /**
+     * a method to check if the values in the file are correct
+     * @param vectorOrganization
+     */
     public void checkCollection(Vector<Organization> vectorOrganization){
         ConsoleManager consoleManager = new ConsoleManager();
         try{

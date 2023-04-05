@@ -3,6 +3,9 @@ package Commands;
 import Exceptions.WrongAmountCommandsException;
 import Utility.ConsoleManager;
 
+/**
+ * exit command
+ */
 public class ExitCommand implements Command{
     private ConsoleManager consoleManager;
     public ExitCommand(){
@@ -18,6 +21,11 @@ public class ExitCommand implements Command{
         return "Terminates the application (without saving collection)";
     }
 
+    /**
+     * terminates the program (without saving to a file)
+     * @param argument
+     * @exception WrongAmountCommandsException
+     */
     @Override
     public void execute(String argument) {
         try {

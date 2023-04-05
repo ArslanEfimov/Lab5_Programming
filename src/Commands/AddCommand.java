@@ -9,6 +9,10 @@ import Utility.ConsoleManager;
 
 import java.time.LocalDate;
 
+/**
+ * add command
+ */
+
 public class AddCommand implements Command{
     private ConsoleManager consoleManager;
     private AskerOrganizations askerOrganizations;
@@ -31,6 +35,12 @@ public class AddCommand implements Command{
         return "add new element to collection";
     }
 
+    /**
+     * adds a new element to the collection
+     * @param argument
+     * @exception WrongAmountCommandsException
+     * @exception IncorrectValueException
+     */
     @Override
     public void execute(String argument){
         try {
