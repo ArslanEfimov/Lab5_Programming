@@ -44,22 +44,14 @@ public class CountGreaterThanOfficialAddressCommand implements Command{
     public void execute(String argument) {
         while(true) {
             try {
-                if (collectionManager.getCollectionSize() != 0) {
-                    try {
-                        if (!argument.isEmpty() && !argument.equals(getName()))
-                            throw new WrongAmountCommandsException();
-                    }catch (WrongAmountCommandsException ex){
-                        consoleManager.println("incorrect command usage, usage example: " + getName());
-                        break;
-                    }
-                    consoleManager.print("enter address: ");
-                    String officialAddress = consoleManager.readString();
-                    if (officialAddress.isEmpty()) throw new MustNotBeEmptyException();
-                    if(officialAddress.length()>130) throw new NotInDeclaredLimitsException();
-                    collectionManager.iteratorForCountGreaterThanOfficAddr(officialAddress);
-                } else {
-                    consoleManager.println("There are no elements in the collection");
-                }break;
+                try {
+                    if (!argument.isEmpty() && !argument.equals(getName())) throw new WrongAmountCommandsException();
+                }catch (WrongAmountCommandsException ex){
+                    consoleManager.println("incorrect command usage, usage example: " + getName());
+                    break;
+                }
+                collectionManager.methodForCountGreaterThanOfficialAddress();
+                break;
             }catch (MustNotBeEmptyException ex){
                 consoleManager.println("address cannot be empty");
             }catch(NotInDeclaredLimitsException ex){

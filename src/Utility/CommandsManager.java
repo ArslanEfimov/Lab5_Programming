@@ -5,6 +5,7 @@ import Exceptions.WrongValuesException;
 import ParceFile.FileManagerReader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * class to manage command
  */
 public class CommandsManager {
-    String[] s;
+    private String[] s;
     private HashMap<String, Command> commandsMap;
     private List<Command> commandsListForHelp;
     private ConsoleManager consoleManager;
@@ -76,7 +77,10 @@ public class CommandsManager {
         while (consoleManager.ifScannerHasNext()) {
            try {
                 s = consoleManager.readString().trim().split(" ");
-                if(s.length>2) throw new WrongValuesException("invalid value format entered");
+                List<String> arrayWithoutSpaces = new ArrayList<>(Arrays.asList(s));
+                arrayWithoutSpaces.removeIf(element -> element.equals(""));
+                s = arrayWithoutSpaces.toArray(new String[0]);
+                if(s.length>2) throw new WrongValuesException("Incorrect number of entered elements");
                 if(s.length==2 && s[0].equals(s[1])) throw new WrongValuesException("invalid value format entered");
                 if (commandsMap.get(s[0]) == null) {
                     consoleManager.println("no such command");
@@ -88,7 +92,10 @@ public class CommandsManager {
            }catch(WrongValuesException ex){
                consoleManager.println(ex.getMessage());
                consoleManager.print("enter command: ");
-            }
+           }catch (ArrayIndexOutOfBoundsException ex){
+               consoleManager.println("no such command");
+               consoleManager.print("enter command: ");
+           }
         }
     }
 

@@ -40,22 +40,10 @@ public class UpdateIdCommand implements Command {
     @Override
     public void execute(String argument){
         try {
-            if (collectionManager.getCollectionSize() != 0) {
-                Long id = Long.parseLong(argument);
-                if(id>0) {
-                    if (collectionManager.getById(id) == null) throw new OrganizationNotFoundException();
-                    collectionManager.iteratorForUpdateId(id);
-                    consoleManager.println("element id updated successfully");
-                }else{
-                    consoleManager.println("id must be greater than 0");
-                }
-            } else {
-                consoleManager.println("There are no items in the collection");
-            }
+            Long id = Long.parseLong(argument.trim().replace(",", "."));
+            collectionManager.methodForUpdateId(id);
         }catch(NumberFormatException ex){
             consoleManager.println("id must be represented by a number, enter the correct value");
-        }catch(OrganizationNotFoundException ex){
-            consoleManager.println("organization with this id was not found");
         }
 
     }

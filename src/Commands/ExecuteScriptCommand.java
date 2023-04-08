@@ -62,13 +62,16 @@ public class ExecuteScriptCommand implements Command {
                         continue;
                     }
                     array = line.split(" ");
-                    if (line.split(" ").length > 2) {
-                        consoleManager.println("incorrect values");
-                        break;
+                    List<String> arrayWithoutSpaces = new ArrayList<>(Arrays.asList(array));
+                    arrayWithoutSpaces.removeIf(element -> element.equals(""));
+                    array = arrayWithoutSpaces.toArray(new String[0]);
+                    if (array.length > 2) {
+                        consoleManager.println("Incorrect number of entered elements");
+                        continue;
                     }
                     if (array.length == 2 && array[0].equals(array[1])) {
                         consoleManager.println("invalid value format entered");
-                        break;
+                        continue;
                     }
                     if (executeMap.get(array[0]) == null) {
                         consoleManager.println("no such command");

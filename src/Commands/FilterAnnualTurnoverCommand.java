@@ -41,13 +41,8 @@ public class FilterAnnualTurnoverCommand implements Command{
     public void execute(String argument) {
         Float annualTur;
         try {
-            if (collectionManager.getCollectionSize() != 0) {
-                annualTur = Float.parseFloat(argument);
-                if(collectionManager.getByAnnualTurnover(annualTur)==null) throw new OrganizationNotFoundException();
-                collectionManager.iteratorForFilterAnnualTurnover(annualTur);
-            } else {
-                consoleManager.println("There are no items in the collection");
-            }
+            annualTur = Float.parseFloat(argument.trim().replace(",", "."));
+            collectionManager.methodForFilterAnnualTurnover(annualTur);
         }catch(NumberFormatException ex){
             consoleManager.println("annualTurnover must be represented by a float number, enter the correct value");
         }catch (OrganizationNotFoundException ex){

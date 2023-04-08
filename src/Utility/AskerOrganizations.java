@@ -1,19 +1,25 @@
 package Utility;
 
+import Exceptions.IncorrectValueException;
 import Exceptions.MustNotBeEmptyException;
 import Exceptions.NotInDeclaredLimitsException;
 import Organization.Address;
 import Organization.Coordinates;
+import Organization.Organization;
 import Organization.OrganizationType;
+
+import java.time.LocalDate;
 
 /**
  * builds an object of type Organization
  */
 public class AskerOrganizations {
     private ConsoleManager consoleManager;
+    private CollectionManager collectionManager;
 
-    public AskerOrganizations() {
+    public AskerOrganizations(CollectionManager collectionManager) {
         this.consoleManager = new ConsoleManager();
+        this.collectionManager = collectionManager;
     }
 
     /**
@@ -26,7 +32,7 @@ public class AskerOrganizations {
         while (true) {
             try {
                 consoleManager.print("enter name: ");
-                name = consoleManager.readString();
+                name = consoleManager.readString().trim();
                 if (name.isEmpty()) throw new MustNotBeEmptyException();
                 break;
             } catch (MustNotBeEmptyException exception) {
@@ -46,7 +52,7 @@ public class AskerOrganizations {
         while (true) {
             try {
                 consoleManager.print("enter x coordinate: ");
-                x = Float.parseFloat(consoleManager.readString());
+                x = Float.parseFloat(consoleManager.readString().trim().replace(",","."));
                 break;
             } catch (NumberFormatException ex) {
                 consoleManager.println("x coordinate must be float type");
@@ -66,10 +72,13 @@ public class AskerOrganizations {
         while (true) {
             try {
                 consoleManager.print("enter y coordinate: ");
-                y = Integer.parseInt(consoleManager.readString());
+                y = Integer.parseInt(consoleManager.readString().trim());
+                if(y<=-98)  throw new NotInDeclaredLimitsException();
                 break;
             } catch (NumberFormatException ex) {
                 consoleManager.println("y coordinate must be int type");
+            }catch (NotInDeclaredLimitsException ex){
+                consoleManager.println("y must be greater than -98");
             }
         }
         return y;
@@ -96,7 +105,7 @@ public class AskerOrganizations {
         while (true) {
             try {
                 consoleManager.print("enter the value of the annual turnover: ");
-                annualTrunover = Float.parseFloat(consoleManager.readString());
+                annualTrunover = Float.parseFloat(consoleManager.readString().trim().replace(",","."));
                 if (annualTrunover < 0) throw new NotInDeclaredLimitsException();
                 break;
             } catch (NotInDeclaredLimitsException ex) {
@@ -115,7 +124,7 @@ public class AskerOrganizations {
     public String setFullName() {
         String fullName;
         consoleManager.print("enter fullName: ");
-        fullName = consoleManager.readString();
+        fullName = consoleManager.readString().trim();
         if (fullName.isEmpty()) {
             return null;
         }
@@ -133,7 +142,7 @@ public class AskerOrganizations {
         while (true) {
             try {
                 consoleManager.print("enter street: ");
-                street = consoleManager.readString();
+                street = consoleManager.readString().trim();
                 if (street.isEmpty()) throw new MustNotBeEmptyException();
                 if (street.length() > 130) throw new NotInDeclaredLimitsException();
                 break;
@@ -168,7 +177,7 @@ public class AskerOrganizations {
             while (true) {
                 try {
                 consoleManager.print("enter the number of the type of organization you need: ");
-                orgNumber = Integer.parseInt(consoleManager.readString());
+                orgNumber = Integer.parseInt(consoleManager.readString().trim());
                 if (orgNumber < 0 || orgNumber > 5) throw new NotInDeclaredLimitsException();
                 if (orgNumber == 1) {
                     return OrganizationType.COMMERCIAL;
@@ -195,5 +204,20 @@ public class AskerOrganizations {
 
     }
 
+    public void setOrganization(Organization organization) {
+        try {
+            organization.setId(collectionManager.generateId());
+            organization.setName(setName());
+            organization.setCoordinates(setCoordinates());
+            organization.setCreationDate(LocalDate.now());
+            organization.setAnnualTurnover(setAnnualTurnover());
+            organization.setFullName(setFullName());
+            organization.setOfficialAddress(setOfficialAddress());
+            organization.setType(setType());
+        }catch (IncorrectValueException e) {
+            consoleManager.println("incorrect values");
+        }
+
+    }
 
 }

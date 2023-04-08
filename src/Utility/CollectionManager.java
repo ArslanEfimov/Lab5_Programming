@@ -1,10 +1,8 @@
 package Utility;
-
 import Comparators.OrganizationCompareAnnualTurn;
-import Exceptions.IncorrectValueException;
+import Exceptions.*;
 import Organization.*;
 import ParceFile.FileManagerReader;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
@@ -18,6 +16,7 @@ public class CollectionManager {
     private Vector<Organization> organizationVector = new Vector<>();
     private FileManagerReader fileManagerReader;
     private LinkedList<Long> listForGenerateId = new LinkedList<>();
+    private ConsoleManager consoleManager = new ConsoleManager();
     public CollectionManager(){
     }
     public CollectionManager(FileManagerReader fileManagerReader) {
@@ -170,7 +169,6 @@ public class CollectionManager {
      * @param officialAddress
      */
     public void iteratorForCountGreaterThanOfficAddr(String officialAddress){
-        ConsoleManager consoleManager = new ConsoleManager();
         Iterator<Organization> iter = getIterator();
         int j = 0;
         while (iter.hasNext()) {
@@ -188,7 +186,6 @@ public class CollectionManager {
      * @param annualTur
      */
     public void iteratorForFilterAnnualTurnover(Float annualTur){
-        ConsoleManager consoleManager = new ConsoleManager();
         Iterator<Organization> iter = getIterator();
         while (iter.hasNext()) {
             Organization organization = iter.next();
@@ -285,6 +282,95 @@ public class CollectionManager {
 
     }
 
+    public void methodForAddIfMax(Organization organization){
+        if(iteratorForAddIfMax(organization)){
+            addNewElement(organization);
+            consoleManager.println("organization has been successfully added to the collection!");
+        }
+        else{
+            consoleManager.println("The element was not added because its value is less than the largest element");
+        }
+    }
+
+    public void methodForUpdateId(Long id) {
+        try {
+            if (getCollectionSize() != 0) {
+                if (id > 0) {
+                    if (getById(id) == null) throw new OrganizationNotFoundException();
+                    iteratorForUpdateId(id);
+                    consoleManager.println("element id updated successfully");
+                } else {
+                    consoleManager.println("id must be greater than 0");
+                }
+            } else {
+                consoleManager.println("There are no items in the collection");
+            }
+        }catch(OrganizationNotFoundException ex){
+            consoleManager.println("organization with this id was not found");
+            }
+    }
+
+    public void methodForRemoveGreater(Float annualTurn){
+        if (getCollectionSize() > 0) {
+            if(annualTurn > 0) {
+                int size = getCollectionSize();
+                iteratorRemoveGreater(annualTurn);
+                if (getCollectionSize() < size) {
+                    consoleManager.println("Element(s) successfully removed(s)");
+                } else {
+                    consoleManager.println("All elements do not exceed the specified");
+                }
+            }else{
+                consoleManager.println("The value of the annual turnover must be greater than 0");
+            }
+        } else {
+            consoleManager.println("There are no elements in the collection");
+        }
+    }
+
+    public void methodForRemoveById(Long id) throws OrganizationNotFoundException {
+        if(getCollectionSize()!=0) {
+            if(id>0) {
+                if (getById(id) == null) throw new OrganizationNotFoundException();
+                if(iteratorForRemoveById(id)==true){
+                    consoleManager.println("Element deleted successfully");
+                }
+                else{
+                    consoleManager.println("This id is not in the collection");
+                }
+            }else{
+                consoleManager.println("id must be greater than 0");
+            }
+        }else{
+            consoleManager.println("There are no elements in the collection");
+        }
+    }
+
+    public void methodForFilterAnnualTurnover(Float annualTur) throws OrganizationNotFoundException {
+        if (getCollectionSize() != 0) {
+            if (annualTur > 0) {
+                if (getByAnnualTurnover(annualTur) == null) throw new OrganizationNotFoundException();
+                iteratorForFilterAnnualTurnover(annualTur);
+            }else{
+                consoleManager.println("The value of the annual turnover must be greater than 0");
+            }
+        } else {
+            consoleManager.println("There are no items in the collection");
+        }
+    }
+
+    public void methodForCountGreaterThanOfficialAddress() throws NotInDeclaredLimitsException, MustNotBeEmptyException {
+        if (getCollectionSize() != 0) {
+            consoleManager.print("enter address: ");
+            String officialAddress = consoleManager.readString().trim();
+            if (officialAddress.isEmpty()) throw new MustNotBeEmptyException();
+            if(officialAddress.length()>130) throw new NotInDeclaredLimitsException();
+            iteratorForCountGreaterThanOfficAddr(officialAddress);
+        } else {
+            consoleManager.println("There are no elements in the collection");
+        }
+    }
+
     /**
      * a method to check if the values in the file are correct
      * @param vectorOrganization
@@ -302,17 +388,17 @@ public class CollectionManager {
                 organization.setCreationDate(organization.getCreationDate());
                 organization.setType(organization.getType());
                 organization.setFullName(organization.getFullName());
-                organization.setOfficialAddress(organization.getOfficialAddress());
+                organization.getOfficialAddress().setStreet(organization.getOfficialAddress().getStreet());
                 organization.setAnnualTurnover(organization.getAnnualTurnover());
             }
             this.organizationVector = vectorOrganization;
         }catch (IllegalArgumentException | IncorrectValueException ex){
             consoleManager.println(ex.getMessage());
-            consoleManager.println(listForGenerateId);
             consoleManager.println("The data in the file is incorrect, check it, you may not have the necessary tags");
             this.organizationVector = new Vector<>();
 
         }
     }
+
 
 }

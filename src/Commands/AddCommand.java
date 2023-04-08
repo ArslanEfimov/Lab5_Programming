@@ -7,7 +7,6 @@ import Utility.AskerOrganizations;
 import Utility.CollectionManager;
 import Utility.ConsoleManager;
 
-import java.time.LocalDate;
 
 /**
  * add command
@@ -20,7 +19,7 @@ public class AddCommand implements Command{
     public AddCommand(CollectionManager collectionManager){
         this.collectionManager = collectionManager;
         this.consoleManager = new ConsoleManager();
-        this.askerOrganizations = new AskerOrganizations();
+        this.askerOrganizations = new AskerOrganizations(collectionManager);
     }
     public AddCommand(){
 
@@ -46,20 +45,11 @@ public class AddCommand implements Command{
         try {
              if (!argument.isEmpty() && !argument.equals(getName())) throw new WrongAmountCommandsException();
              Organization organization = new Organization();
-             organization.setId(collectionManager.generateId());
-             organization.setName(askerOrganizations.setName());
-             organization.setCoordinates(askerOrganizations.setCoordinates());
-             organization.setCreationDate(LocalDate.now());
-             organization.setAnnualTurnover(askerOrganizations.setAnnualTurnover());
-             organization.setFullName(askerOrganizations.setFullName());
-             organization.setOfficialAddress(askerOrganizations.setOfficialAddress());
-             organization.setType(askerOrganizations.setType());
+             askerOrganizations.setOrganization(organization);
              collectionManager.addNewElement(organization);
              consoleManager.println("organization has been successfully added to the collection!");
         }catch (WrongAmountCommandsException ex){
             consoleManager.println("incorrect command usage, usage example: " + getName());
-        } catch (IncorrectValueException e) {
-            consoleManager.println("incorrect values");
         }
     }
 

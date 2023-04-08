@@ -34,18 +34,8 @@ public class RemoveGreaterCommand implements Command{
     @Override
     public void execute(String argument) {
         try {
-            if (collectionManager.getCollectionSize() > 0) {
-                Float annualTurn = Float.parseFloat(argument);
-                int size = collectionManager.getCollectionSize();
-                collectionManager.iteratorRemoveGreater(annualTurn);
-                if (collectionManager.getCollectionSize() < size) {
-                    consoleManager.println("Element(s) successfully removed(s)");
-                } else {
-                    consoleManager.println("All elements do not exceed the specified");
-                }
-            } else {
-                consoleManager.println("There are no elements in the collection");
-            }
+            Float annualTurn = Float.parseFloat(argument.trim().replace(",","."));
+            collectionManager.methodForRemoveGreater(annualTurn);
         }catch(NumberFormatException ex) {
             consoleManager.println("annualTurnover must be represented by a float number, enter the correct value");
         }
